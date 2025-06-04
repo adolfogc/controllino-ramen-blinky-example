@@ -5,13 +5,15 @@
 
 // Global actor instances
 TimerActor timer;
-BlinkyLedActor led(CONTROLLINO_D0, 500); // Pin D0, 500ms interval
+BlinkyLedActor led1(CONTROLLINO_D0, 500); // 500ms interval
+BlinkyLedActor led2(CONTROLLINO_D1, 5000); // 5s interval
 
 void setup() {    
-    led.request_timeout_port >> timer.arm_timeout; // for receiving timeout event
-    timer.actual_timeout_event >> led.process_timeout_event; // for arming the timer
+    led1.request_timeout_evt >> timer.arm_timeout_evt;
+    led2.request_timeout_evt >> timer.arm_timeout_evt;
 
-    led.start();
+    led1.start();
+    led2.start();
 }
 
 void loop() {
