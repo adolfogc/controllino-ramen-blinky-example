@@ -1,17 +1,20 @@
-#include "actors.hpp"
+#include "actor_timer.hpp"
+#include "actor_led.hpp"
+#include "sml.hpp"
 #include <Controllino.h>
 
 // Global actor instances
 TimerActor timer;
-LedActor led(CONTROLLINO_D0);
+BlinkyLedActor led(CONTROLLINO_D0, 500); // Pin D0, 500ms interval
 
-void setup() {
-    timer.tick_event >> led.toggle;
+void setup() {    
+    led.request_timeout_port >> timer.arm_timeout; // for receiving timeout event
+    timer.actual_timeout_event >> led.process_timeout_event; // for arming the timer
 
-    timer.set_interval(500);  // 500ms blink interval
+    led.start();
 }
 
 void loop() {
-        // Update actors that need periodic processing
-        timer.update();
+    // Update actors that need periodic processing
+    timer.update();
 }

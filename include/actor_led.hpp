@@ -1,39 +1,65 @@
 #pragma once
-
 #include "ramen.hpp"
+#include "events.hpp"
 #include <Controllino.h>
 #include <cstdint>
 
-struct LedActor {
+struct BlinkyLedActor {
+    enum class State {
+        LED_OFF,
+        LED_ON
+    };
+
     std::uint8_t pin;
-    bool state = false;
-    
-    // Output event when LED state changes
-    ramen::Pusher<bool> state_changed{};
-    
-    explicit LedActor(std::uint8_t led_pin) : pin(led_pin),
-        toggle([this]() {
-            state = !state;
-            digitalWrite(pin, state ? HIGH : LOW);
-            if (state_changed) {
-                state_changed(state);
-            }
-        }),
-        set_state([this](const bool& new_state) {
-            state = new_state;
-            digitalWrite(pin, state ? HIGH : LOW);
-            if (state_changed) {
-                state_changed(state);
-            }
-        })
+    uint32_t blink_interval_ms;
+    State current_state;
+
+    // --- RAMEN Ports ---
+    ramen::Pushable<> process_timeout_event = [this]() {
+        handle_timeout();
+    };
+
+    ramen::Pusher<std::uint32_t> request_timeout_port{};
+
+    explicit BlinkyLedActor(std::uint8_t led_pin, std::uint32_t interval_ms) :
+        pin(led_pin),
+        blink_interval_ms(interval_ms),
+        current_state(State::LED_OFF)
     {
         pinMode(pin, OUTPUT);
         digitalWrite(pin, LOW);
     }
-    
-    // Behavior to toggle the LED
-    ramen::Pushable<> toggle;
-    
-    // Behavior to set LED state directly
-    ramen::Pushable<bool> set_state;
+
+    void handle_timeout() {
+        switch (current_state) {
+            case State::LED_OFF:
+                turn_led_on();
+                break;
+            case State::LED_ON:
+                turn_led_off();
+                break;
+        }
+    }
+
+    void turn_led_on() {
+        digitalWrite(pin, HIGH);
+        current_state = State::LED_ON;
+        if (request_timeout_port) {
+            request_timeout_port(blink_interval_ms); // arm timer
+        }
+    }
+
+    void turn_led_off() {
+        digitalWrite(pin, LOW);
+        current_state = State::LED_OFF;
+        if (request_timeout_port) {
+            request_timeout_port(blink_interval_ms); // arm timer
+        }
+    }
+
+    void start() {
+        if (request_timeout_port) {
+            request_timeout_port(blink_interval_ms); // arm timer
+        }
+    }
 };
