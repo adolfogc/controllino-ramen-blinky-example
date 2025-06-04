@@ -10,7 +10,7 @@ led::BlinkyLedActor led2(CONTROLLINO_D1, 5000); // 5s interval
 led::BlinkyLedActor led3(CONTROLLINO_D2, 500);
 
 void setup() {    
-    // Connect periodic timer requests to enhanced TimerActor
+    // Connect periodic timer requests to TimerActor
     led1.request_periodic_timer >> timer.arm_periodic_timer_evt;
     led2.request_periodic_timer >> timer.arm_periodic_timer_evt;
     led3.request_periodic_timer >> timer.arm_periodic_timer_evt;
