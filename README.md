@@ -49,3 +49,4 @@ pio run -t upload
 - https://platformio.org
 - https://github.com/modm-io/avr-libstdcpp
 - https://github.com/Zubax/ramen
+- https://boost-ext.github.io/sml/examples.html#arduino-integration
