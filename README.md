@@ -16,6 +16,6 @@ pio run -t upload
 
 ## Links
 
-- https://platformio.org/
+- https://platformio.org
 - https://github.com/modm-io/avr-libstdcpp
 - https://github.com/Zubax/ramen
