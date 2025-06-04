@@ -1,0 +1,19 @@
+{
+    "name": "avr-libstdcpp",
+    "version": "1.0.0",
+    "description": "C++ Standard Library for AVR",
+    "build": {
+        "flags": [
+            "-std=c++17",
+            "-D__cplusplus=201703L"
+        ],
+        "srcFilter": [
+            "+<*>",
+            "-<examples/>",
+            "-<test/>"
+        ]
+    },
+    "export": {
+        "include": "include"
+    }
+}
