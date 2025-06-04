@@ -5,9 +5,9 @@
 
 // Global actor instances
 TimerActor timer;
-BlinkyLedActor led1(CONTROLLINO_D0, 500); // 500ms interval
-BlinkyLedActor led2(CONTROLLINO_D1, 5000); // 5s interval
-BlinkyLedActor led3(CONTROLLINO_D2, 500);
+led::BlinkyLedActor led1(CONTROLLINO_D0, 500); // 500ms interval
+led::BlinkyLedActor led2(CONTROLLINO_D1, 5000); // 5s interval
+led::BlinkyLedActor led3(CONTROLLINO_D2, 500);
 
 void setup() {    
     led1.request_timeout_evt >> timer.arm_timeout_evt;
