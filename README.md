@@ -4,14 +4,7 @@ This repository presents an exploratory setup for modern embedded software devel
 
 The PoC aims for actor-based concurrency with functional reactive programming patterns via RAMEN's port-based communication system.
 
-**Key Benefits Demonstrated:**
-- Type-safe state machines with Boost SML
-- Efficient resource usage on constrained hardware  
-- Declarative actor communication via RAMEN ports
-- Modern C++ patterns on microcontrollers
-
-Initial testing (example below) demonstrates efficient resource utilization (5.7% RAM, 2.4% Flash) while providing type-safe, declarative state machine programming on resource-constrained hardware. 
-
+Initial testing (example below) demonstrates efficient resource utilization (5.7% RAM, 2.4% Flash) while providing type-safe, declarative state machine programming on resource-constrained hardware using modern C++.
 
 Example:
 
